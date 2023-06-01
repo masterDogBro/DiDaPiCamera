@@ -7,7 +7,7 @@ import time
 
 
 class Config:
-    camera_client_addr = ('127.0.0.1', 60001)
+    camera_client_addr = ('192.168.10.50', 60001)
 
 
 class PiCamera:
@@ -19,7 +19,8 @@ class PiCamera:
 
         # iperiod=15 i帧频率，每15个插一个i帧
         # repeat=True 在每帧内(I帧)重复流的序列头，即使流被中途接收，也能有效解析帧头
-        self.encoder = H264Encoder(repeat=True, iperiod=15)
+        # self.encoder = H264Encoder(repeat=True, iperiod=15)
+        self.encoder = H264Encoder()
 
         # 使用udp传输，目标是宿主机12345端口 -f mpegts udp://192.168.137.1:12345
         # 增加0延迟参数 -tune zerolatency
@@ -39,11 +40,11 @@ class PiCamera:
         self.picam2.start_encoder(self.encoder)
         self.picam2.start()
         # 需要持久的视频流
-        while True:
-            time.sleep(1)
+        # while True:
+        #     time.sleep(1)
 
         # The file is closed, but carry on streaming to the network.
-        # time.sleep(9999999)
+        time.sleep(9999999)
 
 
 # output2 = FileOutput()
