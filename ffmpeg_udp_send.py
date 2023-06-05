@@ -40,11 +40,11 @@ class PiCamera:
         self.picam2.start_encoder(self.encoder)
         self.picam2.start()
         # 需要持久的视频流
-        # while True:
-        #    time.sleep(1)
+        while True:
+           time.sleep(1)
 
         # The file is closed, but carry on streaming to the network.
-        time.sleep(9999999)
+        # time.sleep(9999999)
 
 
 # output2 = FileOutput()
