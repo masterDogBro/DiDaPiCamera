@@ -7,7 +7,7 @@ import time
 
 
 class Config:
-    camera_client_addr = ('192.168.137.1', 60001)
+    camera_client_addr = ('127.0.0.1', 60001)
 
 
 class PiCamera:
