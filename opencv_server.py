@@ -47,7 +47,8 @@ def RT_Image(object,client,D_addr):
         object.img=cv2.resize(object.img,object.resolution)     #按要求调整图像大小(resolution必须为元组)
         _,img_encode=cv2.imencode('.jpg',object.img,img_param)  #按格式生成图片
         img_code=numpy.array(img_encode)                        #转换成矩阵
-        object.img_data=img_code.tostring()                     #生成相应的字符串
+        object.img_data=img_code.tobytes()                     #生成相应的字节段
+        # object.img_data=img_code.tostring()                     #生成相应的字符串
         try:
             #按照相应的格式进行打包发送图片
             client.send(struct.pack("lhh",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data)

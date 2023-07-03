@@ -36,7 +36,8 @@ class Camera_Connect_Object:
                         temp_buf=self.client.recv(buf_size)
                         buf_size-=len(temp_buf)
                         self.buf+=temp_buf      #获取图片
-                        data = numpy.fromstring(self.buf, dtype='uint8')    #按uint8转换为图像矩阵
+                        data = numpy.frombuffer(self.buf, dtype='uint8')    #按uint8转换为图像矩阵
+                        # data = numpy.fromstring(self.buf, dtype='uint8')    #按uint8转换为图像矩阵
                         self.image = cv2.imdecode(data, 1)                  #图像解码
                         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
                         cv2.imshow(self.name, self.image)                   #展示图片
