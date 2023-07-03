@@ -4,6 +4,7 @@ import struct
 import time
 import cv2
 import numpy
+import sys
  
 class Carame_Accept_Object:
     def __init__(self,S_addr_port=("",8880)):
@@ -51,7 +52,10 @@ def RT_Image(object,client,D_addr):
         # object.img_data=img_code.tostring()                     #生成相应的字符串
         try:
             #按照相应的格式进行打包发送图片
-            client.send(struct.pack("lhh",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data)
+            image_packet = struct.pack("lhh",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data
+            #获取单帧图片打包后的大小
+            print(sys.getsizeof(image_packet))
+            client.send(image_packet)
         except:
             camera.release()        #释放资源
             return
