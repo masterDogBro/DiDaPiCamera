@@ -24,7 +24,9 @@ class Carame_Accept_Object:
  
 def check_option(object,client):
     #按格式解码，确定帧数和分辨率
-    info=struct.unpack('lhh',client.recv(8))
+    tmp = client.recv(12)
+    print(tmp)
+    info=struct.unpack('iii', tmp)
     if info[0]>888:
         object.img_fps=int(info[0])-888          #获取帧数
         object.resolution=list(object.resolution)
@@ -52,7 +54,7 @@ def RT_Image(object,client,D_addr):
         # object.img_data=img_code.tostring()                     #生成相应的字符串
         try:
             #按照相应的格式进行打包发送图片
-            image_packet = struct.pack("lhh",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data
+            image_packet = struct.pack("iii",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data
             #获取单帧图片打包后的大小
             print(sys.getsizeof(image_packet))
             client.send(image_packet)

@@ -24,9 +24,11 @@ class Camera_Connect_Object:
     def RT_Image(self):
         #按照格式打包发送帧数和分辨率
         self.name=self.addr_port[0]+" Camera"
-        self.client.send(struct.pack("lhh", self.src, self.resolution[0], self.resolution[1]))
+        self.client.send(struct.pack("iii", self.src, self.resolution[0], self.resolution[1]))
         while(1):
-            info=struct.unpack("lhh",self.client.recv(8))
+            tmp = self.client.recv(12)
+            print(tmp)
+            info=struct.unpack("iii", tmp)
             buf_size=info[0]                    #获取读的图片总长度
             if buf_size:
                 try:
