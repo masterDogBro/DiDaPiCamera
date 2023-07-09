@@ -8,9 +8,9 @@ class Camera_Connect_Object:
     def __init__(self,D_addr_port=["",8880]):
         self.resolution=[640,480]
         self.addr_port=D_addr_port
-        self.src=888+15                 #双方确定传输帧数，（888）为校验值
+        # self.src=888+15                 #双方确定传输帧数，（888）为校验值
         self.interval=0                 #图片播放时间间隔
-        self.img_fps=100               #每秒传输多少帧数
+        # self.img_fps=100               #每秒传输多少帧数
  
     def Set_socket(self):
         self.client=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -24,7 +24,7 @@ class Camera_Connect_Object:
     def RT_Image(self):
         #按照格式打包发送帧数和分辨率
         self.name=self.addr_port[0]+" Camera"
-        self.client.send(struct.pack("iii", self.src, self.resolution[0], self.resolution[1]))
+        # self.client.send(struct.pack("iii", self.src, self.resolution[0], self.resolution[1]))
         while(1):
             tmp = self.client.recv(12)
             print(tmp)

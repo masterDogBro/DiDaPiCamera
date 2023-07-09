@@ -22,25 +22,25 @@ class Carame_Accept_Object:
         #print("the process work in the port:%d" % S_addr_port[1])
  
  
-def check_option(object,client):
-    #按格式解码，确定帧数和分辨率
-    tmp = client.recv(12)
-    print(tmp)
-    info=struct.unpack('iii', tmp)
-    if info[0]>888:
-        object.img_fps=int(info[0])-888          #获取帧数
-        object.resolution=list(object.resolution)
-        # 获取分辨率
-        object.resolution[0]=info[1]
-        object.resolution[1]=info[2]
-        object.resolution = tuple(object.resolution)
-        return 1
-    else:
-        return 0
+# def check_option(object,client):
+#     #按格式解码，确定帧数和分辨率
+#     tmp = client.recv(12)
+#     print(tmp)
+#     info=struct.unpack('iii', tmp)
+#     if info[0]>888:
+#         object.img_fps=int(info[0])-888          #获取帧数
+#         object.resolution=list(object.resolution)
+#         # 获取分辨率
+#         object.resolution[0]=info[1]
+#         object.resolution[1]=info[2]
+#         object.resolution = tuple(object.resolution)
+#         return 1
+#     else:
+#         return 0
  
 def RT_Image(object,client,D_addr):
-    if(check_option(object,client)==0):
-        return
+    # if(check_option(object,client)==0):
+    #     return
     camera=cv2.VideoCapture(0)                                #从摄像头中获取视频
     img_param=[int(cv2.IMWRITE_JPEG_QUALITY),object.img_fps]  #设置传送图像格式、帧数
     while(1):
