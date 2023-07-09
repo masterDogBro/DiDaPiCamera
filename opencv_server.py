@@ -5,21 +5,25 @@ import time
 import cv2
 import numpy
 import sys
+
+import sys
+sys.path.append('../staperf')
+import external_interface
  
 class Carame_Accept_Object:
     def __init__(self,S_addr_port=("",8880)):
         self.resolution=(640,480)       #分辨率
         self.img_fps=15                 #每秒传输多少帧数
-        self.addr_port=S_addr_port
+        # self.addr_port=S_addr_port
         self.Set_Socket(self.addr_port)
  
-    #设置套接字
-    def Set_Socket(self,S_addr_port):
-        self.server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.server.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1) #端口可复用
-        self.server.bind(S_addr_port)
-        self.server.listen(5)
-        #print("the process work in the port:%d" % S_addr_port[1])
+    # #设置套接字
+    # def Set_Socket(self,S_addr_port):
+    #     self.server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    #     self.server.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1) #端口可复用
+    #     self.server.bind(S_addr_port)
+    #     self.server.listen(5)
+    #     #print("the process work in the port:%d" % S_addr_port[1])
  
  
 # def check_option(object,client):
@@ -38,7 +42,8 @@ class Carame_Accept_Object:
 #     else:
 #         return 0
  
-def RT_Image(object,client,D_addr):
+# def RT_Image(object,client,D_addr):
+def RT_Image(object):
     # if(check_option(object,client)==0):
     #     return
     camera=cv2.VideoCapture(0)                                #从摄像头中获取视频
@@ -57,7 +62,8 @@ def RT_Image(object,client,D_addr):
             image_packet = struct.pack("iii",len(object.img_data),object.resolution[0],object.resolution[1])+object.img_data
             #获取单帧图片打包后的大小
             print(sys.getsizeof(image_packet))
-            client.send(image_packet)
+            # client.send(image_packet)
+            external_interface.downlink(image_packet, 0)
         except:
             camera.release()        #释放资源
             return
@@ -65,6 +71,7 @@ def RT_Image(object,client,D_addr):
 if __name__ == '__main__':
     camera=Carame_Accept_Object()
     while(1):
-        client,D_addr=camera.server.accept()
-        clientThread=threading.Thread(None,target=RT_Image,args=(camera,client,D_addr,))
+        # client,D_addr=camera.server.accept()
+        # clientThread=threading.Thread(None,target=RT_Image,args=(camera,client,D_addr,))
+        clientThread=threading.Thread(None,target=RT_Image,args=(camera))
         clientThread.start()
